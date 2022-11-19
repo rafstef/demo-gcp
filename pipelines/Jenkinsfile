@@ -71,14 +71,16 @@ pipeline {
         }
         stage('TF Apply') {
             steps {
-                approve_plan=askUserInput("Apply Terraform plan?","NO\nYES","NO",300)
-                if( approve_plan == "YES"){
-                    sh "terraform version"
-                    sh "terraform init -no-color"
-                    sh "terraform workspace select ${env.ENV_NAME} -no-color"
-                    sh "terraform apply -no-color -input=false terraform-plan-${env_name}.plan"
-                }else{
-                    echo "TF plan not approved. Skip Apply . . . "
+                script{
+                    approve_plan=askUserInput("Apply Terraform plan?","NO\nYES","NO",300)
+                    if( approve_plan == "YES"){
+                        sh "terraform version"
+                        sh "terraform init -no-color"
+                        sh "terraform workspace select ${env.ENV_NAME} -no-color"
+                        sh "terraform apply -no-color -input=false terraform-plan-${env_name}.plan"
+                    }else{
+                        echo "TF plan not approved. Skip Apply . . . "
+                    }
                 }
             }
         }
