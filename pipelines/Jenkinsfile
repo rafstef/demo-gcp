@@ -1,16 +1,16 @@
 #!/usr/bin/env groovy
 
-def askUserInput(String message,String multipleChoise,String defaultChoice,int time) {
-    def userInput = defaultChoice
-    try{
-        timeout(time: time, unit: 'SECONDS') {
-        userInput = input message: message, ok: 'OK', parameters: [choice(name: 'USERINPUT', choices: multipleChoise, defaultChoice: defaultChoice, description: message)] }
-    } catch (err) {
-        defaultChoice
-    }
-    echo "User select : ${userInput}"
-    userInput
-}
+// def askUserInput(String message,String multipleChoise,String defaultChoice,int time) {
+//     def userInput = defaultChoice
+//     try{
+//         timeout(time: time, unit: 'SECONDS') {
+//         userInput = input message: message, ok: 'OK', parameters: [choice(name: 'USERINPUT', choices: multipleChoise, defaultChoice: defaultChoice, description: message)] }
+//     } catch (err) {
+//         defaultChoice
+//     }
+//     echo "User select : ${userInput}"
+//     userInput
+// }
 
 def getEnvName(branchName) {
     if("origin/develop".equals(branchName)) {
@@ -65,16 +65,16 @@ pipeline {
                 sh "terraform plan -no-color -input=false -out terraform-plan-${env_name}.plan"
             }
         }
-        stage('TF Apply') {
-            steps {
-                approve_plan=askUserInput("Apply Terraform plan?","NO\nYES","NO",300)
-                if( approve_plan == "YES"){
-                    sh "terraform apply -no-color -input=false terraform-plan-${env_name}.plan"
-                }else{
-                    echo "TF plan not approved. Skip Apply . . . "
-                }
-            }
-        }
+        // stage('TF Apply') {
+        //     steps {
+        //         approve_plan=askUserInput("Apply Terraform plan?","NO\nYES","NO",300)
+        //         if( approve_plan == "YES"){
+        //             sh "terraform apply -no-color -input=false terraform-plan-${env_name}.plan"
+        //         }else{
+        //             echo "TF plan not approved. Skip Apply . . . "
+        //         }
+        //     }
+        // }
     }
     post {
         always {
