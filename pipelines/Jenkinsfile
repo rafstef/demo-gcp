@@ -70,7 +70,7 @@ pipeline {
         }
         stage('TF Apply') {
             steps {
-                approve_plan=buildStep_askUserInput("Apply Terraform plan?","NO\nYES","NO",300)
+                approve_plan=askUserInput("Apply Terraform plan?","NO\nYES","NO",300)
                 if( approve_plan == "YES"){
                     sh "terraform apply -no-color -input=false terraform-plan-${env_name}.plan"
                 }else{
