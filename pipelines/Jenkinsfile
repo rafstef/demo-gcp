@@ -62,6 +62,7 @@ pipeline {
         }
         stage('TF Plan creation') {
             steps {
+                sh "terraform workspace select ${ENV_NAME}"
                 sh "terraform plan -no-color -input=false -out terraform-plan-${env_name}.plan"
             }
         }
@@ -69,6 +70,8 @@ pipeline {
         //     steps {
         //         approve_plan=askUserInput("Apply Terraform plan?","NO\nYES","NO",300)
         //         if( approve_plan == "YES"){
+        //               sh "terraform workspace select ${ENV_NAME}"
+
         //             sh "terraform apply -no-color -input=false terraform-plan-${env_name}.plan"
         //         }else{
         //             echo "TF plan not approved. Skip Apply . . . "
