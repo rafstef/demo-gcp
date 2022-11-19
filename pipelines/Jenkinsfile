@@ -11,6 +11,7 @@ def askUserInput(String message,String multipleChoise,String defaultChoice,int t
     echo "User select : ${userInput}"
     userInput
 }
+
 def getEnvName(branchName) {
     if("origin/develop".equals(branchName)) {
         return "DEV";
@@ -20,6 +21,7 @@ def getEnvName(branchName) {
         return "PREPROD";
     }
 }
+
 pipeline {
     agent any
     environment {
@@ -39,12 +41,7 @@ pipeline {
                 }
             }
         }
-        stage ("Pre-build operations") {
-            steps {
-                cleanWs notFailBuild: false
-                checkout scm
-            }
-        }
+
         stage('Login Step') {
             steps {
                 withCredentials([file(credentialsId: "GCP_SERVICE_ACCOUNT", variable: 'GCP_CREDENTIALS')]){
