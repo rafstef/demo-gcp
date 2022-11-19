@@ -1,11 +1,10 @@
 #!/usr/bin/env groovy
 
-def buildStep_askUserInput (String message,String multipleChoise,String defaultChoice,int time) {
+def askUserInput(String message,String multipleChoise,String defaultChoice,int time) {
     def userInput = defaultChoice
     try{
         timeout(time: time, unit: 'SECONDS') {
-            userInput = input message: message, ok: 'OK', parameters: [choice(name: 'USERINPUT', choices: multipleChoise, defaultChoice: defaultChoice, description: message)] 
-        }
+        userInput = input message: message, ok: 'OK', parameters: [choice(name: 'USERINPUT', choices: multipleChoise, defaultChoice: defaultChoice, description: message)] }
     } catch (err) {
         defaultChoice
     }
@@ -27,7 +26,6 @@ pipeline {
         TERRAFORM_PLAN_FILE="DEMO"
         ENV_NAME = getEnvName(env.GIT_BRANCH)
     }
-
     tools {
         terraform 'terraform'
     }
