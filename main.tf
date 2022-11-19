@@ -69,7 +69,7 @@ resource "google_compute_instance" "frontend" {
 
 network_interface {
     network = module.network.network_self_link
-    subnetwork = module.network.subnets_ids[count.index]
+    subnetwork = module.network.subnets_ids[1]
     access_config {
       nat_ip = google_compute_address.static[count.index].address
     }
@@ -79,7 +79,7 @@ network_interface {
 #BACKEND
 resource "google_compute_address" "static" {
   count = 3
-  name = "ipv4-address-${count.index}"
+  name = "ipv4-address-${lookup(local.env, terraform.workspace)}-{${count.index}"
 }
 
 resource "google_compute_instance" "backend" {
@@ -97,6 +97,6 @@ resource "google_compute_instance" "backend" {
 
 network_interface {
   network = module.network.network_self_link
-  subnetwork = module.network.subnets_ids[count.index]
+  subnetwork = module.network.subnets_ids[0]
   }
 }
