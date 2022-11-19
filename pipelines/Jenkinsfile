@@ -4,7 +4,8 @@ def call (String message,String multipleChoise,String defaultChoice,int time) {
     def userInput = defaultChoice
     try{
         timeout(time: time, unit: 'SECONDS') {
-        userInput = input message: message, ok: 'OK', parameters: [choice(name: 'USERINPUT', choices: multipleChoise, defaultChoice: defaultChoice, description: message)] }
+            userInput = input message: message, ok: 'OK', parameters: [choice(name: 'USERINPUT', choices: multipleChoise, defaultChoice: defaultChoice, description: message)] 
+        }
     } catch (err) {
         defaultChoice
     }
@@ -34,7 +35,6 @@ pipeline {
         stage ("Setup Deployment Environment") {
             steps {
                 script {
-
                     echo "branch name: ${env.GIT_BRANCH}"
                     echo "env name: ${env.ENV_NAME.toLowerCase()}"
                     load "envvars/${env.ENV_NAME.toLowerCase()}.groovy"
@@ -55,7 +55,7 @@ pipeline {
                         sh "cat $GCP_CREDENTIALS > credentias/gcp-credentials.json"
                         env.GOOGLE_APPLICATION_CREDENTIALS="credentials/gcp-credentials.json"
                     }
-                }  
+                }
             }
         }
         stage('TF Init and validations checks') {
