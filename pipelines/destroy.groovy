@@ -66,7 +66,7 @@ pipeline {
                 sh "terraform version"
                 sh "terraform init -no-color"
                 sh "terraform workspace select ${env.ENV_NAME} -no-color"
-                sh "terraform plan -destroy -no-color -input=false -out terraform-plan-${env_name}.plan"
+                sh "terraform plan -destroy -no-color -input=false -out terraform-destroy-plan-${env_name}.plan"
             }
         }
         stage('TF Destroy') {
@@ -77,7 +77,7 @@ pipeline {
                         sh "terraform version"
                         sh "terraform init -no-color"
                         sh "terraform workspace select ${env.ENV_NAME} -no-color"
-                        sh "terraform apply -destroy -no-color -input=false terraform-plan-${env_name}.plan"
+                        sh "terraform apply -destroy -no-color -input=false terraform-destroy-plan-${env_name}.plan"
                     }else{
                         echo "TF destroy plan not approved. Skip Apply . . . "
                     }
