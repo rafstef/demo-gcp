@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call (String message,String multipleChoise,String defaultChoice,int time) {
+def buildStep_askUserInput (String message,String multipleChoise,String defaultChoice,int time) {
     def userInput = defaultChoice
     try{
         timeout(time: time, unit: 'SECONDS') {
