@@ -47,7 +47,7 @@ pipeline {
                 withCredentials([file(credentialsId: "GCP_SERVICE_ACCOUNT", variable: 'GCP_CREDENTIALS')]){
                     script {
                         sh "mkdir -p credentials"
-                        sh "cat $GCP_CREDENTIALS > credentias/gcp-credentials.json"
+                        sh "cat $GCP_CREDENTIALS > credentials/gcp-credentials.json"
                         env.GOOGLE_APPLICATION_CREDENTIALS="credentials/gcp-credentials.json"
                     }
                 }
