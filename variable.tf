@@ -5,12 +5,12 @@ locals {
         PROD = "prod"
     }
     frontend_instance_count = {
-        DEV = "2"
+        DEV = "1"
         PREPROD = "2"
         PROD = "2"
     }
     backend_instance_count = {
-        DEV = "2"
+        DEV = "1"
         PREPROD = "2"
         PROD = "2"
     }
