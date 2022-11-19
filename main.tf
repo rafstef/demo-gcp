@@ -3,14 +3,14 @@ terraform {
   backend "gcs" {
     bucket  = "202211-demo-tfstate"
     prefix  = "terraform/state"
-    credentials = "credentials/spry-analyzer-368916-26cc3a1f50f8.json"
+    credentials = "credentials/gcp-credentials.json"
   }
 }
 
 provider "google" {
   project     = "spry-analyzer-368916"
   region      = "europe-west1"
-  credentials = "credentials/spry-analyzer-368916-26cc3a1f50f8.json"
+  credentials = "credentials/gcp-credentials.json"
 }
 
 
