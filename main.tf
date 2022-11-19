@@ -79,7 +79,7 @@ network_interface {
 #BACKEND
 resource "google_compute_address" "static" {
   count = 3
-  name = "ipv4-address-${lookup(local.env, terraform.workspace)}-{${count.index}"
+  name = "ipv4-address-${lookup(local.env, terraform.workspace)}-${count.index}"
 }
 
 resource "google_compute_instance" "backend" {
