@@ -11,13 +11,42 @@ def call (String message,String multipleChoise,String defaultChoice,int time) {
     echo "User select : ${userInput}"
     userInput
 }
-
+def getEnvName(branchName) {
+    if("origin/develop".equals(branchName)) {
+        return "DEV";
+    } else if ("origin/master".equals(branchName)) {
+        return "PROD";
+    } else if ("origin/release".equals(branchName)) {
+        return "PREPROD";
+    }
+}
 pipeline {
     agent any
+    environment {
+        TERRAFORM_PLAN_FILE="DEMO"
+        ENV_NAME = getEnvName(env.GIT_BRANCH)
+    }
+
     tools {
         terraform 'terraform'
     }
     stages{
+        stage ("Setup Deployment Environment") {
+            steps {
+                script {
+
+                    echo "branch name: ${env.GIT_BRANCH}"
+                    echo "env name: ${env.ENV_NAME.toLowerCase()}"
+                    load "envvars/${env.ENV_NAME.toLowerCase()}.groovy"
+                }
+            }
+        }
+        stage ("Pre-build operations") {
+            steps {
+                cleanWs notFailBuild: false
+                checkout scm
+            }
+        }
         stage('Login Step') {
             steps {
                 withCredentials([file(credentialsId: "GCP_SERVICE_ACCOUNT", variable: 'GCP_CREDENTIALS')]){
